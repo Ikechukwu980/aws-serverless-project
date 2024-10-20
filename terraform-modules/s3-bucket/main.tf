@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "static_website" {
   bucket = var.bucket_name
-   region = "us-east-1
+  
 
   # Enable website hosting
   website {
