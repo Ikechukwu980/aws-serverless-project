@@ -22,15 +22,18 @@ phases:
 
   pre_build:
     commands:
-     - echo "Initializing Terraform..."
-      - cd terraform-modules
+      - echo "Initializing Terraform..."
+      - cd aws-serverless-project/terraform-modules
       - terraform init
-      - cd ..
-
+      - terraform fmt -recursive
+      - terraform plan
+      - ls -l
 
   build:
     commands:
       - echo "Applying Terraform..."
+      - cd aws-serverless-project/terraform-modules
+      - ls -l
       - terraform apply -auto-approve
       # - echo "Building the Lambda functions..."
       # - cd src/handlers
