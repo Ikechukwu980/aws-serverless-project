@@ -21,9 +21,7 @@ phases:
       - unzip awscliv2.zip
       - sudo ./aws/install --update
       - echo "Setting AWS CLI region to us-east-1..."
-      - aws configure set region us-east-1  # Set the region explicitly
-      - echo "Checking current AWS CLI region..."
-      - aws configure get region  # Verify the region is set correctly
+      - aws configure set region us-east-1
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
@@ -33,18 +31,18 @@ phases:
 
   pre_build:
     commands:
-      - echo "Initializing Terraform..."
-      - cd terraform-modules
-      - ls -l
-      - terraform init
-      - terraform fmt -recursive
+      - echo "Reinitializing Terraform..."
+      - terraform init -reconfigure  # Reinitialize Terraform with the new configuration
+      - rm -rf .terraform  # Clear the .terraform directory
+      - terraform init  # Reinitialize after clearing cache
+      - export TF_LOG=DEBUG  # Enable detailed debugging for Terraform
+      - echo "Running Terraform plan..."
       - terraform plan
       - ls -l
 
   build:
     commands:
-      - echo "Applying Terraform..."
-      - ls -l
+      - echo "Applying Terraform with debug logs..."
       - terraform apply -auto-approve
 
   post_build:
