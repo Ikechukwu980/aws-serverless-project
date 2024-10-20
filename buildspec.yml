@@ -20,10 +20,10 @@ phases:
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - sudo ./aws/install --update
-      - echo "Checking current AWS CLI region..."
-      - aws configure get region  # Check the current AWS CLI region
       - echo "Setting AWS CLI region to us-east-1..."
-      - aws configure set region us-east-1  # Set AWS CLI region explicitly to us-east-1
+      - aws configure set region us-east-1  # Set the region explicitly
+      - echo "Checking current AWS CLI region..."
+      - aws configure get region  # Verify the region is set correctly
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
@@ -46,23 +46,9 @@ phases:
       - echo "Applying Terraform..."
       - ls -l
       - terraform apply -auto-approve
-      # - echo "Building the Lambda functions..."
-      # - cd src/handlers
-      # - npm install
-      # - echo "Zipping Lambda functions..."
-      # - zip -r ../../put-contact-form.zip put-item.mjs node_modules
-      # - zip -r ../../get-contact-form.zip get-by-id.mjs node_modules
-      # - zip -r ../../get-all-contacts.zip get-all-items.mjs node_modules
-      # - cd ../..
 
   post_build:
     commands:
-      # - echo "Deploying Lambda functions..."
-      # - aws lambda update-function-code --function-name PutContactForm --zip-file fileb://put-contact-form.zip
-      # - aws lambda update-function-code --function-name GetContactFormById --zip-file fileb://get-contact-form.zip
-      # - aws lambda update-function-code --function-name GetAllContactForms --zip-file fileb://get-all-contacts.zip
-      # - echo "Copying index.html to S3..."
-      # - aws s3 cp ./UI/index.html s3://my-static-website/ --acl public-read
       - echo "Terraform provisioning completed!"
 
 artifacts:
