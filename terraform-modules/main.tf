@@ -1,6 +1,7 @@
 # creating an s3 bucket
 module "s3_static_website" {
   source         = "./s3-bucket"
+  region = "us-east-1"
   bucket_name    = var.bucket_name
   index_document = var.index_document
   error_document = var.error_document
