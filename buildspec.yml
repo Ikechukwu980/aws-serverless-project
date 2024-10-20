@@ -32,6 +32,8 @@ phases:
   pre_build:
     commands:
       - echo "Reinitializing Terraform..."
+      - cd terraform-modules
+      - ls -l
       - terraform init -reconfigure  # Reinitialize Terraform with the new configuration
       - rm -rf .terraform  # Clear the .terraform directory
       - terraform init  # Reinitialize after clearing cache
