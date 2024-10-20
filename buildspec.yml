@@ -10,17 +10,23 @@ phases:
       - cd aws-serverless-project
       - echo "Installing dependencies..."
       - npm install
-      - npm install -g aws-cli
+      - echo "Installing AWS CLI..."
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - sudo ./aws/install
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
-      - mv terraform /usr/local/bin/
+      - sudo mv terraform /usr/local/bin/
       - terraform --version
 
   pre_build:
     commands:
       - echo "Initializing Terraform..."
+      - cd terraform-modules
       - terraform init
+      - terraform fmt -recursive
+      - terraform plan
 
   build:
     commands:
