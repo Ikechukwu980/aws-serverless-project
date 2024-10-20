@@ -35,7 +35,6 @@ phases:
   build:
     commands:
       - echo "Applying Terraform..."
-      - cd aws-serverless-project/terraform-modules
       - ls -l
       - terraform apply -auto-approve
       # - echo "Building the Lambda functions..."
