@@ -1,0 +1,16 @@
+{
+    "name": "serverless-cf-api-project",
+    "version": "1.0.0",
+    "description": "Build-only configuration for Serverless API project",
+    "main": "src/handlers/index.js",
+    "scripts": {
+      "build": "npm install && npm prune --production"
+    },
+    "dependencies": {
+      "@aws-sdk/client-dynamodb": "^3.50.0",
+      "@aws-sdk/lib-dynamodb": "^3.50.0"
+    },
+    "author": "Your Name",
+    "license": "MIT"
+  }
+  
