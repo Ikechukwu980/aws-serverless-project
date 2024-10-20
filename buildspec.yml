@@ -22,11 +22,10 @@ phases:
 
   pre_build:
     commands:
-      - echo "Initializing Terraform..."
+     - echo "Initializing Terraform..."
       - cd terraform-modules
       - terraform init
-      - terraform fmt -recursive
-      - terraform plan
+      - cd ..
 
 
   build:
