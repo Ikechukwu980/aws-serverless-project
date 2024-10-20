@@ -20,6 +20,10 @@ phases:
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - sudo ./aws/install --update
+      - echo "Checking current AWS CLI region..."
+      - aws configure get region  # Check the current AWS CLI region
+      - echo "Setting AWS CLI region to us-east-1..."
+      - aws configure set region us-east-1  # Set AWS CLI region explicitly to us-east-1
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
