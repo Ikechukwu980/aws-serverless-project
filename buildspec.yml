@@ -13,7 +13,7 @@ phases:
       - echo "Installing AWS CLI..."
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
-      - sudo ./aws/install
+      - sudo ./aws/install --update
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
@@ -27,6 +27,7 @@ phases:
       - terraform init
       - terraform fmt -recursive
       - terraform plan
+
 
   build:
     commands:
