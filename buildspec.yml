@@ -20,11 +20,13 @@ phases:
       - unzip terraform_1.5.0_linux_amd64.zip
       - sudo mv terraform /usr/local/bin/
       - terraform --version
+      - ls -l
 
   pre_build:
     commands:
       - echo "Initializing Terraform..."
       - cd terraform-modules
+      - ls -l
       - terraform init
       - terraform fmt -recursive
       - terraform plan
