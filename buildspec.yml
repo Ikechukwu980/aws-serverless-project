@@ -4,43 +4,58 @@ phases:
   install:
     runtime-versions:
       nodejs: 18
-      terraform: 1.5
     commands:
       - echo "Cloning the repository..."
-      - git clone https://github.com/webmagicinformatica/serverless-cf-api-project.git
-      - cd serverless-cf-api-project
+      - git clone https://github.com/Ikechukwu980/aws-serverless-project.git
+      - ls -l
+      - cd aws-serverless-project
       - echo "Installing dependencies..."
       - npm install
-      - npm install -g aws-cli
+      - echo "Installing AWS CLI..."
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - sudo ./aws/install --update
+      - echo "Installing Terraform..."
+      - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
+      - unzip terraform_1.5.0_linux_amd64.zip
+      - sudo mv terraform /usr/local/bin/
       - terraform --version
+      - ls -l
 
   pre_build:
     commands:
       - echo "Initializing Terraform..."
+      - cd terraform-modules
+      - ls -l
       - terraform init
+      - terraform fmt -recursive
+      - terraform plan
+      - ls -l
 
   build:
     commands:
       - echo "Applying Terraform..."
+      - cd aws-serverless-project/terraform-modules
+      - ls -l
       - terraform apply -auto-approve
-      - echo "Building the Lambda functions..."
-      - cd src/handlers
-      - npm install
-      - echo "Zipping Lambda functions..."
-      - zip -r ../../put-contact-form.zip put-item.mjs node_modules
-      - zip -r ../../get-contact-form.zip get-by-id.mjs node_modules
-      - zip -r ../../get-all-contacts.zip get-all-items.mjs node_modules
-      - cd ../..
+      # - echo "Building the Lambda functions..."
+      # - cd src/handlers
+      # - npm install
+      # - echo "Zipping Lambda functions..."
+      # - zip -r ../../put-contact-form.zip put-item.mjs node_modules
+      # - zip -r ../../get-contact-form.zip get-by-id.mjs node_modules
+      # - zip -r ../../get-all-contacts.zip get-all-items.mjs node_modules
+      # - cd ../..
 
   post_build:
     commands:
-      - echo "Deploying Lambda functions..."
-      - aws lambda update-function-code --function-name PutContactForm --zip-file fileb://put-contact-form.zip
-      - aws lambda update-function-code --function-name GetContactFormById --zip-file fileb://get-contact-form.zip
-      - aws lambda update-function-code --function-name GetAllContactForms --zip-file fileb://get-all-contacts.zip
-      - echo "Copying index.html to S3..."
-      - aws s3 cp ./UI/index.html s3://my-static-website/ --acl public-read
-      - echo "Build, Lambda deployment, and UI deployment completed!"
+      # - echo "Deploying Lambda functions..."
+      # - aws lambda update-function-code --function-name PutContactForm --zip-file fileb://put-contact-form.zip
+      # - aws lambda update-function-code --function-name GetContactFormById --zip-file fileb://get-contact-form.zip
+      # - aws lambda update-function-code --function-name GetAllContactForms --zip-file fileb://get-all-contacts.zip
+      # - echo "Copying index.html to S3..."
+      # - aws s3 cp ./UI/index.html s3://my-static-website/ --acl public-read
+      - echo "Terraform provisioning completed!"
 
 artifacts:
   files:

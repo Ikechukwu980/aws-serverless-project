@@ -1,9 +1,10 @@
 terraform {
   backend "s3" {
-    bucket         = "my-terraform-state-bucket-serverlessapp"
-    key            = "serverless-web-app/terraform.tfstate"
+    bucket         = "ikeboy-1234"
+    key            = "terraform-module/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-state-lock-"
+    dynamodb_table = "Terraform-state-lock"
     encrypt        = true
   }
 }
+
