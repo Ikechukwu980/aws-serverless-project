@@ -1,14 +1,8 @@
 # variables.tf
 
-variable "bucket_name" {
-  description = "The name of the S3 bucket for static website hosting"
-  type        = string
-}
+variable "bucket_name" {}
 
-variable "index_document" {
-  description = "The index document for the S3 bucket hosting"
-  type        = string
-}
+variable "index_document" {}
 
 variable "error_document" {
   description = "The error document for the S3 bucket hosting"
