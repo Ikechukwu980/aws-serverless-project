@@ -1,4 +1,4 @@
-bucket_name   = "my-static-website-bucket"
+bucket_name   = "my-static-website-bucket-12354"
 index_document = "index.html"
 error_document = "error.html"
 
