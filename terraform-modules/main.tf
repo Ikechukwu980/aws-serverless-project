@@ -1,6 +1,6 @@
 # creating an s3 bucket
 module "s3_static_website" {
-  source         = "./terraform-modules/s3-bucket"
+  source         = "./s3-bucket"
   bucket_name    = var.bucket_name
   index_document = var.index_document
   error_document = var.error_document
