@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_REGION: us-east-1
+    AWS_DEFAULT_REGION: us-east-1
+
 phases:
   install:
     runtime-versions:
@@ -15,6 +20,8 @@ phases:
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - sudo ./aws/install --update
+      - echo "Setting AWS CLI region to us-east-1..."
+      - aws configure set region us-east-1
       - echo "Installing Terraform..."
       - curl -O https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
       - unzip terraform_1.5.0_linux_amd64.zip
@@ -24,37 +31,24 @@ phases:
 
   pre_build:
     commands:
-      - echo "Initializing Terraform..."
+      - echo "Reinitializing Terraform..."
       - cd terraform-modules
       - ls -l
-      - terraform init
-      - terraform fmt -recursive
+      - terraform init -reconfigure  # Reinitialize Terraform with the new configuration
+      - rm -rf .terraform  # Clear the .terraform directory
+      - terraform init  # Reinitialize after clearing cache
+      - export TF_LOG=DEBUG  # Enable detailed debugging for Terraform
+      - echo "Running Terraform plan..."
       - terraform plan
       - ls -l
 
   build:
     commands:
-      - echo "Applying Terraform..."
-      - cd aws-serverless-project/terraform-modules
-      - ls -l
+      - echo "Applying Terraform with debug logs..."
       - terraform apply -auto-approve
-      # - echo "Building the Lambda functions..."
-      # - cd src/handlers
-      # - npm install
-      # - echo "Zipping Lambda functions..."
-      # - zip -r ../../put-contact-form.zip put-item.mjs node_modules
-      # - zip -r ../../get-contact-form.zip get-by-id.mjs node_modules
-      # - zip -r ../../get-all-contacts.zip get-all-items.mjs node_modules
-      # - cd ../..
 
   post_build:
     commands:
-      # - echo "Deploying Lambda functions..."
-      # - aws lambda update-function-code --function-name PutContactForm --zip-file fileb://put-contact-form.zip
-      # - aws lambda update-function-code --function-name GetContactFormById --zip-file fileb://get-contact-form.zip
-      # - aws lambda update-function-code --function-name GetAllContactForms --zip-file fileb://get-all-contacts.zip
-      # - echo "Copying index.html to S3..."
-      # - aws s3 cp ./UI/index.html s3://my-static-website/ --acl public-read
       - echo "Terraform provisioning completed!"
 
 artifacts:
