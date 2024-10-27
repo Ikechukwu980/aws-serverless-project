@@ -9,8 +9,9 @@ resource "aws_s3_bucket" "static_website" {
 
   tags = var.tags
 }
-
-resource "aws_s3_bucket_acl" "static_website_acl" {
+resource "aws_s3_bucket_object" "index_html" {
   bucket = aws_s3_bucket.static_website.id
-  acl    = "public-read"
+  key    = var.index_document
+  source = "${var.website_files_path}/${var.index_document}"
 }
+
