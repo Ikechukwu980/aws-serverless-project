@@ -37,14 +37,12 @@ phases:
       - terraform init -reconfigure  # Reinitialize Terraform with the new configuration
       - rm -rf .terraform  # Clear the .terraform directory
       - terraform init  # Reinitialize after clearing cache
-      - export TF_LOG=DEBUG  # Enable detailed debugging for Terraform
       - echo "Running Terraform plan..."
       - terraform plan
       - ls -l
 
   build:
     commands:
-      - echo "Applying Terraform with debug logs..."
       - terraform apply -auto-approve
 
   post_build:
